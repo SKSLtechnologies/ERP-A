@@ -2,10 +2,10 @@
 <html>
   <head>
     <title>MOM grid</title>
+    
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-   
   </head>
 
   <body>
@@ -38,15 +38,18 @@
     </div>
     </div>
     </div>
+
+<!--  Pull  values from DB -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+<!-- Change look of table -->
     <script src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
 
-<!-- To display the list
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.js"/> -->
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
- 
+<!-- Caliing JS for search/pagination/add user options -->
+    <script src="js/index.js"></script>
+
+<!-- To display the values in list -->
     <script>
             $(document).ready(function(){
               $.getJSON("/momdb.json", function(data){
@@ -62,11 +65,10 @@
                     mom_data += '<tr>';
                 });
                 $('#datatable').append(mom_data);
-              });
-              
+              });    
             });
             </script>
-               <!-- <script src="js/index.js"></script> -->
+               
 
   </body>
   
