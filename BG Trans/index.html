@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="utf-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+        <title>BG Trans</title>
+
+        <link href="style/app.css" rel="stylesheet">
+        <link href="style/bootstrap.css" rel="stylesheet">
+        <link href="style/floating-labels.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
+        <!-- custom CSS -->
+        <style>
+                body {
+                        background: #fff;
+                }
+
+                .border-bottom {
+                        border: 0;
+                        outline: 0;
+                        background: transparent;
+                        border-bottom: 1px solid #666 !important;
+                }
+
+                .custom-control-input:checked~.custom-control-label:before {
+
+                        color: #fff;
+                        background-color: #05668D;
+                        border-color: #9BC4CB;
+
+                }
+
+                .btn-primary {
+                        color: #fff;
+                        background-color: #05668D;
+                        border-color: #05668D;
+
+                }
+
+                .btn-primary:hover {
+
+
+                        background-color: #064789;
+                        border-color: #064789;
+
+                }
+
+                .btn-primary:focus,
+                .btn-primary.focus {
+                        box-shadow: 0 0 0 0 #05668D;
+                }
+
+                .select2-container--bootstrap4 .select2-results__option--highlighted[aria-selected] {
+                        background-color: #05668D;
+                        color: #fff;
+                }
+
+                .card.material-table{
+                        width: 1117px;
+                }
+                
+                .table-bordered tr,
+                .table-bordered thead {
+                        border: 1px solid #dee2e6;
+                }
+
+                .table thead th {
+                        width:auto;
+                        background-color: #05668D;
+                        color: #fff;
+                        white-space: nowrap;
+
+                }
+
+                .table td {
+                        white-space: normal;
+
+                }
+
+                .font-weight-bolder {
+                        font-weight: 1000;
+                }
+        </style>
+</head>
+
+<body>
+
+        <div class="container">
+
+                <!-- common header option for all three Vouchers -->
+
+                <form class="p-2 mb-2 text-dark" style="background-color:#62B6CB;">
+                        <div class="form-row">
+                                <div class="col-md-2">
+                                        <label class="form-label">Project code</label>
+                                        <select class="form-control select2" data-toggle="select2" id="projcd">
+                                                <option value="084">084</option>
+                                                <option value="011">011</option>
+                                                <option value="161">161</option>
+                                                <option value="165">165</option>
+                                                <option value="168">168</option>
+                                                <option value="169">169</option>
+                                        </select>
+                                </div>
+
+                                <div class="col-md-2">
+                                        <label class="form-label">Party code</label>
+                                        <select class="form-control select2" data-toggle="select2" id="party">
+                                                <option value="Kolkata">Kolkata</option>
+                                                <option value="Bilaspur">Bilaspur</option>
+                                                <option value="Durgapur">Durgapur</option>
+                                                <option value="JharKhand">Jharkhand</option>
+                                                <option value="New Delhi">New Delhi</option>
+                                                <option value="Nagpur">Nagpur</option>
+                                        </select>
+                                </div>
+                                <div class="col-md-2 offset-md-4">
+                                        <label class="form-label">BG Number</label>
+                                        <input type="text" class="form-control" id="bg_number">
+                                </div>
+                                <div class="col-md-2">
+                                        <label class="form-lable">BG date</label>
+                                        <input class="form-control" type="text" id="bg_date" data-mask="date" name="date"
+                                                placeholder="MM/DD/YYYY" />
+                                </div>
+                        </div>
+                </form>
+
+                <!-- inline radio buttons -->
+
+                <form class="mb-2">
+
+                        <div class="form-row ml-2">
+
+                                <div class="offset-3 col-md-2">
+                                        <div class="custom-control custom-radio">
+                                                <input type="radio" id="BGTransEntry" name="customRadio"
+                                                        class="custom-control-input"
+                                                        onclick="javascript:Display_bgTransEntry();">
+                                                <label class="custom-control-label font-weight-bolder"
+                                                        for="BGTransEntry">BG Insert</label>
+                                        </div>
+
+                                </div>
+
+
+                                <div class="col-md-2">
+                                        <div class="custom-control custom-radio">
+                                                <input type="radio" id="BGupdate" name="customRadio"
+                                                        class="custom-control-input"
+                                                        onclick="javascript:Display_BGupdate();">
+                                                <label class="custom-control-label font-weight-bolder"
+                                                        for="BGupdate">BG Update</label>
+                                        </div>
+                                </div>
+
+
+                                <div class="col-md-2">
+                                        <div class="custom-control custom-radio">
+                                                <input type="radio" id="BGsearch" name="customRadio"
+                                                        class="custom-control-input"
+                                                        onclick="javascript:Display_BGsearch();">
+                                                <label class="custom-control-label font-weight-bolder"
+                                                        for="BGsearch">BG Search</label>
+                                        </div>
+                                </div>
+
+                        </div>
+                </form>
+
+
+                <!-- display  BG insert  -->
+
+                <div id="if_BGinsert" style="display:none">
+                        <div class="card">
+                                <div class="card-header text-white" style="background-color: #05668D ;">
+                                        <div class="row no-gutters">
+                                            <div class="col-md-4">BANK GUARANTEE TRANSACTION ENTRY</div>
+                                        </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <form id="BGTransEntryForm">
+
+                                        <div class="form-row no-gutters">
+
+                                                <div class="col-md">
+                                                        <div class="form-label-group">
+                                                                <input type="text" class="border-bottom"
+                                                                        placeholder="BG Serial No."
+                                                                        list="SelectedMachinecode" id="bg_entry_srl">
+                                                                <label for="bg_entry_srl">BG serial no.</label>
+                                                        </div>
+                                                </div>
+
+                                                <div class="col-md">
+                                                        <div class="form-label-group">
+                                                                <input class="border-bottom" type="text"
+                                                                        data-mask="date" id="bg_entry_dt" name="date"
+                                                                        placeholder="MM/DD/YYYY">
+                                                                <label for="bg_entry_dt">BG entry date</label>
+                                                        </div>
+                                                </div>
+
+                                                <div class="col-md">
+                                                        <div class="form-label-group">
+                                                                <input type="text" class="border-bottom"
+                                                                        placeholder="BG type"
+                                                                        list="BGtypeList" id="bg_type">
+                                                                <label for="bg_type">BG type</label>
+                                                                <datalist id="BGtypeList">
+                                                                        <option value="Advance"></option>
+                                                                        <option value="Performance"></option>
+                                                                        <option value="V. Corporate BG"></option>
+                                                                        <option value="Other"></option>
+                                                             </datalist>
+                                                        </div>
+                                                </div>
+
+                                                <div class="col-md">
+                                                        <div class="form-label-group">
+                                                                <input type="text" class="border-bottom"
+                                                                        placeholder="BG against"
+                                                                        list="BGagainstList" id="bg_against">
+                                                                <label for="bg_against">BG against</label>
+                                                                <datalist id="BGagainstList">
+                                                                        <option value="Purchaser"></option>
+                                                                        <option value="Seller"></option>
+                                                                        <option value="Purchase Order"></option>
+                                                                        <option value="Work Order"></option>
+                                                                </datalist>
+                                                        </div>
+                                                </div>
+
+                                                </div>
+                                                <!-- end of first group -->
+
+
+                                                <div class="form-row no-gutters">
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                data-mask="currency"
+                                                                                placeholder="Order ref no" id="ord_ref_no">
+                                                                        <label for="ord_ref_no">Order ref no</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                data-mask="date" id="order_ref_date" name="date"
+                                                                                placeholder="MM/DD/YYYY" />
+                                                                        <label for="order_ref_date">Order ref date</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                data-mask="currency"
+                                                                                placeholder="Amount" id="bg_amount">
+                                                                        <label for="bg_amount">BG amount</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <div class="form-label-group">
+                                                                                <input class="border-bottom"
+                                                                                        placeholder="BG item description"
+                                                                                        id="bgfor_item">
+                                                                                <label for="bgfor_item">BG item description</label>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                                <!-- end of second group -->
+
+
+                                                <div class="form-row no-gutters">
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom"
+                                                                                placeholder="Issuing Bank" type="text"
+                                                                                id="iss_bnk">
+                                                                        <label for="iss_bnk">Issuing bank</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom"
+                                                                                placeholder="Issuing Bank Branch"
+                                                                                type="text" id="iss_bnk_brnch">
+                                                                        <label for="iss_bnk_brnch">Issuing bank branch</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom"
+                                                                                placeholder="Issuing Bank Pin"
+                                                                                type="text" id="iss_bnk_pin">
+                                                                        <label for="iss_bnk_pin">Issuing bank pin</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <div class="form-label-group">
+                                                                                <input class="border-bottom"
+                                                                                        placeholder="Address"
+                                                                                        id="iss_bnk_addr">
+                                                                                <label for="iss_bnk_addr">Address</label>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                                <!-- end of third group -->
+
+                                                <div class="form-row no-gutters">
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                data-mask="date" id="bg_period_frm"
+                                                                                placeholder="MM/DD/YYYY" name="date"/>
+                                                                        <label for="bg_period_frm">BG valid from</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                data-mask="date" id="bg_period_to"
+                                                                                placeholder="MM/DD/YYYY" name="date" />
+                                                                        <label for="bg_period_to">BG valid to</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                data-mask="date" id="claim_within"
+                                                                                placeholder="MM/DD/YYYY" name="date" />
+                                                                        <label for="claim_within">Claim within</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input type="text" class="border-bottom"
+                                                                                placeholder="BG status"
+                                                                                list="BGstatusList" id="bg_status">
+                                                                        <label for="bg_status">BG status</label>
+                                                                        <datalist id="BGstatusList">
+                                                                                <option value="New"></option>
+                                                                                <option value="Released"></option>
+                                                                                <option value="Expired"></option>
+                                                                                <option value="Extended"></option>
+                                                                                <option value="Encashed"></option>
+                                                                                <option value="Claimed"></option>
+                                                                        </datalist>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                                <!-- end of fourth group -->
+
+
+                                                <div class="form-row no-gutters">
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <div class="form-label-group">
+                                                                                <input class="border-bottom"
+                                                                                        placeholder="Remarks"
+                                                                                        id="remarks">
+                                                                                <label for="remarks">Remarks</label>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+
+
+                                                        <div class="col-md-2 offset-4">
+                                                                <input type="button" value="Submit"
+                                                                        id="M_AddVoucherBtn"
+                                                                        class="btn btn-primary mt-1" />
+                                                        </div>
+                                                </div>
+                                                <!-- end of last group -->
+
+
+
+                                                <!-- table that displays form elements -->
+                                                <br>
+                                                <div id="Acc_table" style="display:none">
+
+                                                        <div class="table-responsive">
+
+                                                                <table class="table table-sm table-bordered"
+                                                                        id="A_display_table">
+                                                                        <thead>
+                                                                                <tr>
+                                                                                        <th style="width:5%">Srl</th>
+                                                                                        <th style="width:6%">A/C code
+                                                                                        </th>
+                                                                                        <th style="width:6%">Party code
+                                                                                        </th>
+                                                                                        <th style="width:20%">Narration
+                                                                                        </th>
+                                                                                        <th style="width:11%">Chq/DD no
+                                                                                        </th>
+                                                                                        <th style="width:5%">Chq date
+                                                                                        </th>
+                                                                                        <th style="width:15%">Bill no
+                                                                                        </th>
+                                                                                        <th style="width:5%">Bill date
+                                                                                        </th>
+                                                                                        <th style="width:9%">GST no</th>
+                                                                                        <th style="width:6%">Debit</th>
+                                                                                        <th style="width:6%">Credit</th>
+
+
+                                                                                </tr>
+                                                                        </thead>
+
+                                                                </table>
+                                                        </div>
+
+                                                </div>
+                                                <!-- Modal for GST details-->
+                                                <div class="modal fade" id="Modal" tabindex="-1" role="dialog"
+                                                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                                <h5 class="modal-title">GST details
+                                                                                        &amp; Expense for party</h5>
+
+                                                                                <button type="button" class="close"
+                                                                                        data-dismiss="modal"
+                                                                                        aria-label="Close">
+                                                                                        <span
+                                                                                                aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                                <div class="form-inline">
+                                                                                        <!-- <div class="form-group"> -->
+                                                                                        <label>GST No &nbsp;</label>
+                                                                                        <input class="form-control w-25"
+                                                                                                id="GST_no">
+                                                                                        <!-- </div> -->
+
+                                                                                </div>
+                                                                                <br>
+
+                                                                                <form>
+
+                                                                                        <div
+                                                                                                class="form-row no-gutters">
+
+
+                                                                                                <div class="col-md-4">
+                                                                                                        <div
+                                                                                                                class="custom-control custom-checkbox">
+                                                                                                                <input type="checkbox"
+                                                                                                                        class="custom-control-input"
+                                                                                                                        id="GST_paid">
+                                                                                                                <label class="custom-control-label"
+                                                                                                                        for="GST_paid"
+                                                                                                                        style="font-size:12px;">GST
+                                                                                                                        paid</label>
+                                                                                                        </div>
+                                                                                                </div>
+
+                                                                                                <div class="col-md-4">
+                                                                                                        <div
+                                                                                                                class="custom-control custom-checkbox">
+                                                                                                                <input type="checkbox"
+                                                                                                                        class="custom-control-input"
+                                                                                                                        id="Eligible">
+                                                                                                                <label class="custom-control-label"
+                                                                                                                        for="Eligible"
+                                                                                                                        style="font-size:12px;">Eligible</label>
+                                                                                                        </div>
+                                                                                                </div>
+
+
+                                                                                                <div class="col-md-4">
+                                                                                                        <div
+                                                                                                                class="custom-control custom-checkbox">
+                                                                                                                <input type="checkbox"
+                                                                                                                        class="custom-control-input"
+                                                                                                                        id="Reverse_charges">
+                                                                                                                <label class="custom-control-label"
+                                                                                                                        for="Reverse_charges"
+                                                                                                                        style="font-size:12px;">Reverse
+                                                                                                                        charges</label>
+                                                                                                        </div>
+                                                                                                </div>
+
+                                                                                        </div>
+                                                                                        <br>
+                                                                                        <div
+                                                                                                class="form-row no-gutters">
+                                                                                                <div class="col-md-3">
+                                                                                                        <div
+                                                                                                                class="form-label-group">
+                                                                                                                <input class="border-bottom"
+                                                                                                                        id="Machine_code">
+                                                                                                                <label
+                                                                                                                        for="inputMcode">M/C
+                                                                                                                        code</label>
+                                                                                                        </div>
+                                                                                                </div>
+
+
+                                                                                                <div class="col-md-3">
+                                                                                                        <div
+                                                                                                                class="form-label-group">
+                                                                                                                <input class="border-bottom"
+                                                                                                                        list="SelectedPerson"
+                                                                                                                        id="Signed_by">
+                                                                                                                <label
+                                                                                                                        for="inputSignedBy">Signed
+                                                                                                                        by</label>
+                                                                                                                <datalist
+                                                                                                                        id="SelectedPerson">
+                                                                                                                        <option
+                                                                                                                                value="one">
+                                                                                                                        </option>
+                                                                                                                        <option
+                                                                                                                                value="two">
+                                                                                                                        </option>
+                                                                                                                        <option
+                                                                                                                                value="three">
+                                                                                                                        </option>
+                                                                                                                        <option
+                                                                                                                                value="four">
+                                                                                                                        </option>
+                                                                                                                        <option
+                                                                                                                                value="five">
+                                                                                                                        </option>
+                                                                                                                </datalist>
+                                                                                                        </div>
+                                                                                                </div>
+
+                                                                                                <div class="col-md-3">
+                                                                                                        <div
+                                                                                                                class="form-label-group">
+                                                                                                                <input class="border-bottom"
+                                                                                                                        id="State_code">
+                                                                                                                <label
+                                                                                                                        for="inputStCode">State
+                                                                                                                        cd</label>
+                                                                                                        </div>
+                                                                                                </div>
+
+
+                                                                                                <div class="col-md-3">
+                                                                                                        <div
+                                                                                                                class="form-label-group">
+                                                                                                                <input class="border-bottom"
+                                                                                                                        id="Composite">
+                                                                                                                <label
+                                                                                                                        for="inputComposite">Composite</label>
+                                                                                                        </div>
+                                                                                                </div>
+
+                                                                                        </div>
+
+                                                                                </form>
+
+                                                                        </div>
+
+                                                                        <div class="modal-footer">
+                                                                                <button type="button"
+                                                                                        class="btn btn-primary">Save</button>
+
+                                                                        </div>
+
+                                                                </div>
+                                                        </div>
+                                                </div>
+
+                                                <!-- end of modal -->
+
+                                        </form>
+                                </div>
+                        </div>
+
+                </div>
+
+
+
+                <!-- display BG Update -->
+
+                <div id="if_BGupdate" style="display:none">
+                        <div class="card">
+                                <div class="card-header text-white" style="background-color: #05668D ;">
+                                        <div class="row no-gutters">
+                                                <div class="col-md-4">BANK GUARANTEE TRANSACTION UPDATE</div>
+                                        </div>
+                                </div>
+
+                                <div class="card-body">
+                                        <form id="BGUpdateForm">
+                                                <div class="form-row no-gutters">
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input type="text" class="border-bottom"
+                                                                                placeholder="BG Serial No."
+                                                                                id="bg_entry_srl">
+                                                                        <label for="bg_entry_srl">BG serial no.</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                data-mask="date" id="bg_entry_dt"
+                                                                                placeholder="MM/DD/YYYY" name="date">
+                                                                        <label for="bg_entry_dt">BG entry date</label>
+                                                                </div>
+                                                        </div>
+
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input type="text" class="border-bottom"
+                                                                                placeholder="BG type"
+                                                                                list="SelectedAccountcode" id="bg_type">
+                                                                        <label for="bg_type">BG type</label>
+                                                                        <datalist id="SelectedAccountcode">
+                                                                                <option value="Advance"></option>
+                                                                                <option value="Performance"></option>
+                                                                                <option value="V. Corporate BG">
+                                                                                </option>
+                                                                                <option value="Other"></option>
+                                                                        </datalist>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                data-mask="date" id="bg_period_frm"
+                                                                                placeholder="MM/DD/YYYY" name="date" />
+                                                                        <label for="bg_period_frm">BG valid from</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                data-mask="date" id="bg_period_to"
+                                                                                placeholder="MM/DD/YYYY" name="date" />
+                                                                        <label for="bg_period_to">BG valid to</label>
+                                                                </div>
+                                                        </div>
+
+
+
+                                                </div>
+
+                                                <!-- end of first group -->
+
+                                                <div class="form-row no-gutters">
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                data-mask="date" id="claim_within"
+                                                                                placeholder="MM/DD/YYYY" name="date" />
+                                                                        <label for="claim_within">Claim within</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input type="text" class="border-bottom"
+                                                                                placeholder="BG status"
+                                                                                list="BGstatusList" id="bg_status">
+                                                                        <label for="bg_status">BG status</label>
+                                                                        <datalist id="BGstatusList">
+                                                                                <option value="New"></option>
+                                                                                <option value="Released"></option>
+                                                                                <option value="Expired"></option>
+                                                                                <option value="Extended"></option>
+                                                                                <option value="Encashed"></option>
+                                                                                <option value="Claimed"></option>
+                                                                        </datalist>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input type="text" class="border-bottom"
+                                                                                placeholder="BG new status"
+                                                                                list="SelectedAccountcode"
+                                                                                id="bg_new_status">
+                                                                        <label for="bg_new_status">BG new status</label>
+                                                                        <datalist id="BGstatusList">
+                                                                                <option value="New"></option>
+                                                                                <option value="Released"></option>
+                                                                                <option value="Expired"></option>
+                                                                                <option value="Extended"></option>
+                                                                                <option value="Encashed"></option>
+                                                                                <option value="Claimed"></option>
+                                                                        </datalist>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                data-mask="date" id="bg_new_status_dt"
+                                                                                placeholder="MM/DD/YYYY" name="date"/>
+                                                                        <label for="bg_new_status_dt">Status valid upto</label>
+                                                                </div>
+                                                        </div>
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <div class="form-label-group">
+                                                                                <input class="border-bottom"
+                                                                                        placeholder="Remarks"
+                                                                                        id="remarks">
+                                                                                <label for="remarks">Remarks</label>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+
+                                                </div>
+                                                <br>
+
+                                                <!-- end of second group -->
+                                                <div class="form-row no-gutters">
+                                                        <div class="col-md-2 offset-10">
+                                                                <input type="button" value="Update"
+                                                                        id="M_AddVoucherBtn"
+                                                                        class="btn btn-primary mt-1" />
+                                                        </div>
+                                                </div>
+                                </div>
+
+                                <!-- end of third group -->
+                                <br>
+                                </form>
+                        </div>
+                </div>
+
+                <!-- display BG search -->
+
+                <div id="if_BGsearch" style="display:none;">
+                        <div class="card">
+                                <div class="card-header text-white" style="background-color: #05668D ;">
+                                        <div class="row no-gutters">
+                                                <!-- <div class="col-md-4">SRL No.<span id="Me_srl_no">1</span> &nbsp; -->
+                                                        BANK GUARANTEE SEARCH</div>
+                                                <div class="offset-3 col-md-2">
+                                                </div>
+                                        </div>
+                                </div>
+
+                                <div class="card-body">
+
+                                        <form id="BGsearchForm">
+
+                                                <div class="form-row no-gutters">
+                                                
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input type="text" class="border-bottom"
+                                                                                placeholder="BG status"
+                                                                                list="BGstatusList" id="bg_stat" onkeyup="myFunction()">
+                                                                        <label for="bg_stat" >BG status</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input type="text" class="border-bottom"
+                                                                                placeholder="BG type"
+                                                                                list="BGtypeList" id="bg_typ" onkeyup="myFunction()">
+                                                                        <label for="bg_type">BG type</label>
+                                                                        <datalist id="BGtypeList">
+                                                                                <option value="Advance"></option>
+                                                                                <option value="Performance"></option>
+                                                                                <option value="V. Corporate BG"></option>
+                                                                                <option value="Other"></option>
+                                                                     </datalist>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom"
+                                                                                placeholder="Issuing Bank" type="text"
+                                                                                id="iss_bnk">
+                                                                        <label for="iss_bnk">Issuing bank</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                data-mask="date" id="claim_within"
+                                                                                placeholder="MM/DD/YYYY" name="date" />
+                                                                        <label for="claim_within">Claim within</label>
+                                                                </div>
+                                                        </div>
+
+
+                                                </div>
+
+                                                <!-- end of first group -->
+
+                                </div>
+                                </form>
+
+                                <br>
+
+                                <!-- table that displays form elements -->
+                                <div class="card material-table">                                     
+                              
+                                      <br/>
+                                      <table class="table" id="bg_table">
+                                        <thead>
+                                        <tr>
+                                          <th>#</th>
+                                          <th>BG No.</th>
+                                          <th>BG Date</th>
+                                          <th>Amount</th>
+                                          <th>BG Type</th>
+                                          <th>BG Status</th>
+                                          <th>Status valid to</th>
+                                          <th>Claim within</th>
+                                          <th>Remarks</th>
+                                        </tr>
+                                        </thead>
+                                </table>
+                                </div>
+
+    
+                        </div>
+                </div>
+
+
+        </div>
+        <!-- end of container -->
+
+
+        <script src="https://spark.bootlab.io/js/app.js"></script>
+
+        <!-- rule defined for input data mask -->
+        <script src="js/app.js"></script>
+        <script src="jquery.maskedinput.js"></script>
+        <script src="jquery.clearform.js"></script>
+
+        <script>
+                $(document).ready(function () {
+                        //-initialize the javascript
+                        App.init();
+                        App.masks();
+                });
+        </script>
+
+        <script>
+                $(function () {
+                        // Select2
+                        $(".select2").each(function () {
+                                $(this)
+                                        .wrap("<div class=\"position-relative\"></div>")
+                                        .select2({
+                                                dropdownParent: $(this).parent()
+                                        });
+                        })
+
+                        //calendar
+                        $("input[name=\"date\"]").daterangepicker({
+                                singleDatePicker: true,
+                                showDropdowns: true
+                        });
+                });
+        </script>
+
+
+
+        <script>
+
+                // for displaying BG insert
+                function Display_bgTransEntry() {
+                        if (document.getElementById('BGTransEntry').checked) {
+
+                                document.getElementById('if_BGupdate').style.display = 'none';
+                                document.getElementById('if_BGsearch').style.display = 'none';
+
+
+                                document.getElementById('if_BGinsert').style.display = 'block';
+                        }
+                }
+
+            
+                //for displaying material
+                function Display_BGupdate() {
+                        if (document.getElementById('BGupdate').checked) {
+
+                                document.getElementById('if_BGinsert').style.display = 'none';
+                                document.getElementById('if_BGsearch').style.display = 'none';
+
+
+                                document.getElementById('if_BGupdate').style.display = 'block';
+                        }
+                }
+
+
+                //for displaying bg grid
+
+
+                function Display_BGsearch() {
+                        if (document.getElementById('BGsearch').checked) {
+
+                                document.getElementById('if_BGinsert').style.display = 'none';
+                                document.getElementById('if_BGupdate').style.display = 'none';
+
+                                document.getElementById('if_BGsearch').style.display = 'block';
+                                document.getElementById("BGsearchForm").reset();
+                                document.getElementById("bg_table").reset();
+                           
+                        }
+                }
+        </script>
+
+ 
+<script>
+        $(document).ready(function(){
+          $.getJSON("/csvjson.json", function(data){
+            var bg_data = '';  
+            $.each(data, function(key, value){
+                bg_data += '<tr>';
+                  bg_data += '<td>'+key+'</td>';
+                  bg_data += '<td>'+value.bgnumber+'</td>';
+                  bg_data += '<td>'+value.bgdate+'</td>';
+                  bg_data += '<td>'+value.bgamount+'</td>';
+                  bg_data += '<td>'+value.bgtype+'</td>';
+                  bg_data += '<td>'+value.bgstatus+'</td>';
+                  bg_data += '<td>'+value.bgextended_upto+'</td>';
+                  bg_data += '<td>'+value.bgclaim_within+'</td>';
+                  bg_data += '<td>'+value.bgremarks+'</td>';
+                  bg_data += '<tr>';
+            });
+            $('#bg_table').append(bg_data);
+          });
+          
+        });
+        </script>
+
+
+<script>
+        function myFunction() {
+          var input1, filter1, table, tr, td1, i, txtValue1;
+          var input2, filter2, td2, txtValue2;
+
+          input1 = document.getElementById("bg_stat");
+          filter1 = input1.value.toUpperCase();
+
+          input2 = document.getElementById("bg_typ");
+          filter2 = input2.value.toUpperCase();
+
+          table = document.getElementById("bg_table");
+          tr = table.getElementsByTagName("tr");
+          for (i = 0; i < tr.length; i++) {
+
+            td1 = tr[i].getElementsByTagName("td")[5];
+            td2 = tr[i].getElementsByTagName("td")[4];
+
+            if (td1 || td2) {
+              txtValue1 = td1.textContent || td1.innerText;
+              txtValue2 = td2.textContent || td2.innerText;
+
+              if ((txtValue1.toUpperCase().indexOf(filter1) > -1) && (txtValue2.toUpperCase().indexOf(filter2) > -1)) {
+                tr[i].style.display = "";
+              } else {
+                tr[i].style.display = "none";
+              }
+            }       
+          }
+        }
+        </script>
+
+</body>
+
+</html>
