@@ -7,5 +7,7 @@ Missing points in BG :
   - size of grid to be reduced further
   - move the insert button to next line
   
+  - backend connection search on finyear
+  
   
   
