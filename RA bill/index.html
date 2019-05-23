@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="utf-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+        <title>RA bill ERP</title>
+
+        <link href="style/app.css" rel="stylesheet">
+        <link href="style/bootstrap.css" rel="stylesheet">
+        <link href="style/floating-labels.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
+        <!-- custom CSS -->
+        <style>
+                body {
+                        background: #fff;
+                }
+
+                .border-bottom {
+                        border: 0;
+                        outline: 0;
+                        background: transparent;
+                        border-bottom: 1px solid #666 !important;
+                }
+
+                .custom-control-input:checked~.custom-control-label:before {
+
+                        color: #fff;
+                        background-color: #05668D;
+                        border-color: #9BC4CB;
+
+                }
+
+                .btn-primary {
+                        color: #fff;
+                        background-color: #05668D;
+                        border-color: #05668D;
+
+                }
+
+                .btn-primary:hover {
+
+
+                        background-color: #064789;
+                        border-color: #064789;
+
+                }
+
+                .btn-primary:focus,
+                .btn-primary.focus {
+                        box-shadow: 0 0 0 0 #05668D;
+                }
+
+                .select2-container--bootstrap4 .select2-results__option--highlighted[aria-selected] {
+                        background-color: #05668D;
+                        color: #fff;
+                }
+
+                .card.material-table {
+                        width: 1117px;
+                }
+
+                .table-bordered tr,
+                .table-bordered thead {
+                        border: 1px solid #dee2e6;
+                }
+
+                .table thead th {
+                        width: auto;
+                        background-color: #05668D;
+                        color: #fff;
+                        white-space: nowrap;
+
+                }
+
+                .table td {
+                        white-space: normal;
+
+                }
+
+                .font-weight-bolder {
+                        font-weight: 1000;
+                }
+        </style>
+</head>
+
+<body>
+
+        <div class="container">
+
+                <!-- common header option for all three Vouchers -->
+
+                <form class="p-2 mb-2 text-dark" style="background-color:#62B6CB;">
+                        <div class="form-row">
+                                <div class="col-md-2">
+                                        <label class="form-label">Project code</label>
+                                        <select class="form-control select2" data-toggle="select2" id="projcd">
+                                                <option value="084">084</option>
+                                                <option value="011">011</option>
+                                                <option value="161">161</option>
+                                                <option value="165">165</option>
+                                                <option value="168">168</option>
+                                                <option value="169">169</option>
+                                        </select>
+                                </div>
+
+
+                                <div class="col-md-2 offset-md-8">
+                                        <label class="form-label">RA bill No.</label>
+                                        <input type="text" class="form-control" id="ra_no">
+                                </div>
+                        </div>
+                </form>
+
+                <!-- inline radio buttons -->
+
+                <form class="mb-2">
+
+                        <div class="form-row ml-2">
+
+                                <div class="offset-3 col-md-2">
+                                        <div class="custom-control custom-radio">
+                                                <input type="radio" id="RAentry" name="customRadio"
+                                                        class="custom-control-input"
+                                                        onclick="javascript:Display_RAentry();">
+                                                <label class="custom-control-label font-weight-bolder" for="RAentry">RA
+                                                        Insert</label>
+                                        </div>
+
+                                </div>
+
+
+                                <div class="col-md-2">
+                                        <div class="custom-control custom-radio">
+                                                <input type="radio" id="RAupdate" name="customRadio"
+                                                        class="custom-control-input"
+                                                        onclick="javascript:Display_RAupdate();">
+                                                <label class="custom-control-label font-weight-bolder" for="RAupdate">RA
+                                                        Update</label>
+                                        </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                        <div class="custom-control custom-radio">
+                                                <input type="radio" id="RAsearch" name="customRadio"
+                                                        class="custom-control-input"
+                                                        onclick="javascript:Display_RAsearch();">
+                                                <label class="custom-control-label font-weight-bolder" for="RAsearch">RA
+                                                        Search</label>
+                                        </div>
+                                </div>
+
+                        </div>
+                </form>
+
+
+                <!-- display  FD insert  -->
+
+                <div id="if_RAinsert" style="display:none">
+                        <div class="card">
+                                <div class="card-header text-white" style="background-color: #05668D ;">
+                                        <div class="row no-gutters">
+                                                <div class="col-md-4">RA BILL TRANSACTION ENTRY</div>
+                                        </div>
+                                </div>
+
+                                <div class="card-body">
+                                        <form id="RAform">
+
+                                                <div class="form-row no-gutters">
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input type="text" class="border-bottom"
+                                                                                placeholder="Bill part no."
+                                                                                id="bill_part_no">
+                                                                        <label for="bill_part_no">Bill part no.</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                data-mask="date" id="bill_dt"
+                                                                                name="date" placeholder="MM/DD/YYYY">
+                                                                        <label for="bill_dt">Bill date</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input type="text" class="border-bottom"
+                                                                                placeholder="Bill item"
+                                                                                list="BillItemList" id="bill_item">
+                                                                        <label for="bill_item">Bill item</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input type="text" class="border-bottom"
+                                                                                placeholder="Billing %" id="bill_pc">
+                                                                        <label for="bill_pc">Billing %</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md-2">
+                                                                <input type="button" value="Submit" id="RAinsertBtn"
+                                                                        class="btn btn-primary mt-1" />
+                                                        </div>
+                                                </div>
+
+                                                <!-- end of last group -->
+
+                                        </form>
+                                </div>
+                        </div>
+
+                </div>
+
+
+
+                <!-- display FD Update -->
+
+                <div id="if_RAupdate" style="display:none">
+                        <div class="card">
+                                <div class="card-header text-white" style="background-color: #05668D ;">
+                                        <div class="row no-gutters">
+                                                <div class="col-md-4">RA BILL UPDATE</div>
+                                        </div>
+                                </div>
+
+                                <div class="card-body">
+                                        <form id="RAForm">
+                                                <div class="form-row no-gutters">
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input type="text" class="border-bottom"
+                                                                                placeholder="Bill part no."
+                                                                                id="bill_part_no">
+                                                                        <label for="bill_part_no">Bill part no.</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input type="text" class="border-bottom"
+                                                                                placeholder="Client code"
+                                                                                list="ClientList" id="client_cd">
+                                                                        <label for="client_cd">Client code</label>
+                                                                        <datalist id="ClientList">
+                                                                                <option value="SBI"></option>
+                                                                                <option value="UBI"></option>
+                                                                                <option value="Purchase Order"></option>
+                                                                                <option value="Work Order"></option>
+                                                                        </datalist>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                placeholder="Quantity(%) bil"
+                                                                                id="qty_bill">
+                                                                        <label for="qty_bill">Quantity(%) bill</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                data-mask="date" id="bill_from"
+                                                                                name="date" placeholder="MM/DD/YYYY" />
+                                                                        <label for="bill_from">Bill from</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                data-mask="date" id="bill_to"
+                                                                                name="date" placeholder="MM/DD/YYYY" />
+                                                                        <label for="bill_to">Bill to</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <input type="button" value="Update" id="RAUpdateBtn"
+                                                                        class="btn btn-primary mt-1" />
+                                                        </div>
+
+                                                </div>
+
+                                                <!-- end of first group -->
+                                </div>
+
+                                <!-- end of third group -->
+                                <br>
+                                </form>
+                        </div>
+                </div>
+
+                <!-- display FD search -->
+
+                <div id="if_RAsearch" style="display:none;">
+                        <div class="card">
+                                <div class="card-header text-white" style="background-color: #05668D ;">
+                                        <div class="row no-gutters">
+                                                <!-- <div class="col-md-4">SRL No.<span id="Me_srl_no">1</span> &nbsp; -->
+                                                RA BILL SEARCH</div>
+                                        <div class="offset-3 col-md-2">
+                                        </div>
+                                </div>
+                        </div>
+
+                        <div class="card-body">
+
+                                <form id="RAsearchForm">
+
+                                        <div class="form-row no-gutters">
+
+                                                        <div class="col-md">
+                                                                        <div class="form-label-group">
+                                                                                <input type="text" class="border-bottom"
+                                                                                        placeholder="Financial Year" id="finyear" />
+                                                                                <label for="finyear">Financial Year</label>
+                                                                        </div>
+                                                                </div>
+
+                                                <div class="col-md">
+                                                        <div class="form-label-group">
+                                                                <input type="text" class="border-bottom"
+                                                                        placeholder="Project Code" list="ProjectList"
+                                                                        id="proj_cd" onkeyup="myFunction()">
+                                                                <label for="proj_cd">Project Code</label>
+                                                                <datalist id="ProjectList">
+                                                                        <option value="84"></option>
+                                                                        <option value="11"></option>
+                                                                </datalist>
+                                                        </div>
+                                                </div>
+                                                <div class="col-md">
+                                                        <div class="form-label-group">
+                                                                <input type="text" class="border-bottom"
+                                                                        placeholder="Party Code" id="prty_cd" onkeyup="myFunction()">
+                                                                <label for="prty_cd">Party Code</label>
+                                                        </div>
+                                                </div>
+
+                                                <div class="col-md">
+                                                        <div class="form-label-group">
+                                                                <input class="border-bottom" type="text"
+                                                                        placeholder="RA bill no" id="bill_no"
+                                                                        onkeyup="myFunction()">
+                                                                <label for="bill_no">RA bill no</label>
+                                                        </div>
+                                                </div>
+
+
+                                        </div>
+
+                                        <!-- end of first group -->
+
+                        </div>
+                        </form>
+
+                        <br>
+
+                        <!-- table that displays form elements -->
+                        <div class="card material-table">
+
+                                <br />
+                                <table class="table" id="ra_table">
+                                        <a href="#" onClick="window.print()"><i class="material-icons">print</i></a>
+                                        <thead>
+                                                <tr>
+                                                        <th>#</th>
+                                                        <th>Project code</th>
+                                                        <th>RA bill no</th>
+                                                        <th>Bill Date</th>
+                                                        <th>Party</th>
+                                                        <th>Bill %</th>
+                                                        <th>Bill part no.</th>
+                                                        <th>Bill amount</th>
+                                                        <th>Bill % amount</th>
+                                                </tr>
+                                        </thead>
+                                </table>
+                        </div>
+
+
+                </div>
+
+        </div>
+
+
+        </div>
+        <!-- end of container -->
+
+
+        <script src="https://spark.bootlab.io/js/app.js"></script>
+
+        <!-- rule defined for input data mask -->
+        <script src="js/app.js"></script>
+        <script src="jquery.maskedinput.js"></script>
+        <script src="jquery.clearform.js"></script>
+
+        <script>
+                $(document).ready(function () {
+                        //-initialize the javascript
+                        App.init();
+                        App.masks();
+                });
+        </script>
+
+        <script>
+                $(function () {
+                        // Select2
+                        $(".select2").each(function () {
+                                $(this)
+                                        .wrap("<div class=\"position-relative\"></div>")
+                                        .select2({
+                                                dropdownParent: $(this).parent()
+                                        });
+                        })
+
+                        //calendar
+                        $("input[name=\"date\"]").daterangepicker({
+                                singleDatePicker: true,
+                                showDropdowns: true
+                        });
+                });
+        </script>
+
+
+
+        <script>
+                // for displaying RA insert form
+                function Display_RAentry() {
+                        if (document.getElementById('RAentry').checked) {
+
+                                document.getElementById('if_RAupdate').style.display = 'none';
+
+                                document.getElementById('if_RAinsert').style.display = 'block';
+                        }
+                }
+
+
+                //for displaying RA update form
+                function Display_RAupdate() {
+                        if (document.getElementById('RAupdate').checked) {
+
+                                document.getElementById('if_RAinsert').style.display = 'none';
+
+                                document.getElementById('if_RAupdate').style.display = 'block';
+                        }
+                }
+
+
+                function Display_RAsearch() {
+                        if (document.getElementById('RAsearch').checked) {
+
+                                document.getElementById('if_RAinsert').style.display = 'none';
+                                document.getElementById('if_RAupdate').style.display = 'none';
+
+                                document.getElementById('if_RAsearch').style.display = 'block';
+                                // document.getElementById("FDsearchForm").reset();
+                                // document.getElementById("bg_table").reset();
+
+                        }
+                }
+        </script>
+  
+  
+  <script>
+        $(document).ready(function () {
+                $.getJSON("/csvjson.json", function (data) {
+                        var ra_data = '';
+                        $.each(data, function (key, value) {
+                                ra_data += '<tr>';
+                                ra_data += '<td>' + key +
+                                        '</td>';
+                                ra_data += '<td>' + value
+                                        .PROJCD + '</td>';
+                                ra_data += '<td>' + value
+                                        .RABIL_NO + '</td>';
+                                ra_data += '<td>' + value
+                                        .BILL_DATE + '</td>';
+                                ra_data += '<td>' + value
+                                        .PARTY + '</td>';
+                                ra_data += '<td>' + value
+                                        .BILL_PCNT + '</td>';
+                                ra_data += '<td>' + value
+                                        .RABILL_STR +
+                                        '</td>';
+                                ra_data += '<td>' + value
+                                        .BILL_AMT +
+                                        '</td>';
+                                ra_data += '<td>' + value
+                                        .BILL_PCNTAMT + '</td>';
+                                ra_data += '<tr>';
+                        });
+                        $('#ra_table').append(ra_data);
+                });
+
+        });
+</script>
+
+
+<script>
+        function myFunction() {
+                var input1, filter1, table, tr, td1, i, txtValue1;
+                var input2, filter2, td2, txtValue2;
+
+                input1 = document.getElementById("proj_cd");
+                filter1 = input1.value.toUpperCase();
+
+                input2 = document.getElementById("prty_cd");
+                filter2 = input2.value.toUpperCase();
+
+                input3 = document.getElementById("bill_no");
+                filter3 = input3.value.toUpperCase();
+
+                table = document.getElementById("ra_table");
+                tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+
+                        td1 = tr[i].getElementsByTagName("td")[1];
+                        td2 = tr[i].getElementsByTagName("td")[4];
+                        td3 = tr[i].getElementsByTagName("td")[2];
+
+                        if (td1 || td2 || td3 ) {
+                                txtValue1 = td1.textContent || td1.innerText;
+                                txtValue2 = td2.textContent || td2.innerText;
+                                txtValue3 = td3.textContent || td3.innerText;
+
+                                if ((txtValue1.toUpperCase().indexOf(filter1) > -1) && 
+                                        (txtValue2.toUpperCase().indexOf(filter2) > -1) && 
+                                        (txtValue3.toUpperCase().indexOf(filter3) > -1)) {
+
+                                        tr[i].style.display = "";
+                                } else {
+                                        tr[i].style.display = "none";
+                                }
+                        }
+                }
+        }
+</script>
+
+
+
+</body>
+
+</html>
