@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="utf-8">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+        <title>Insurance Policy ERP</title>
+
+        <link href="style/app.css" rel="stylesheet">
+        <link href="style/bootstrap.css" rel="stylesheet">
+        <link href="style/floating-labels.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
+        <!-- custom CSS -->
+        <style>
+                body {
+                        background: #fff;
+                }
+
+                .border-bottom {
+                        border: 0;
+                        outline: 0;
+                        background: transparent;
+                        border-bottom: 1px solid #666 !important;
+                }
+
+                .custom-control-input:checked~.custom-control-label:before {
+
+                        color: #fff;
+                        background-color: #05668D;
+                        border-color: #9BC4CB;
+
+                }
+
+                .btn-primary {
+                        color: #fff;
+                        background-color: #05668D;
+                        border-color: #05668D;
+
+                }
+
+                .btn-primary:hover {
+
+
+                        background-color: #064789;
+                        border-color: #064789;
+
+                }
+                i{
+                        color: #05668D;
+                }
+
+                .btn-primary:focus,
+                .btn-primary.focus {
+                        box-shadow: 0 0 0 0 #05668D;
+                }
+
+                .select2-container--bootstrap4 .select2-results__option--highlighted[aria-selected] {
+                        background-color: #05668D;
+                        color: #fff;
+                }
+
+                .card.material-table {
+                        width: 1117px;
+                }
+
+                .table-bordered tr,
+                .table-bordered thead {
+                        border: 1px solid #dee2e6;
+                }
+
+                .table thead th {
+                        width: auto;
+                        background-color: #05668D;
+                        color: #fff;
+                        white-space: nowrap;
+
+                }
+
+                .table td {
+                        white-space: normal;
+
+                }
+
+                .font-weight-bolder {
+                        font-weight: 1000;
+                }
+        </style>
+</head>
+
+<body>
+
+        <div class="container">
+
+                <!-- common header option for all three Vouchers -->
+
+                <form class="p-2 mb-2 text-dark" style="background-color:#62B6CB;">
+                        <div class="form-row">
+                                <div class="col-md-2">
+                                        <label class="form-label">Project code</label>
+                                        <select class="form-control select2" data-toggle="select2" id="projcd">
+                                                <option value="084">084</option>
+                                                <option value="011">011</option>
+                                                <option value="161">161</option>
+                                                <option value="165">165</option>
+                                                <option value="168">168</option>
+                                                <option value="169">169</option>
+                                        </select>
+                                </div>
+
+
+                                <div class="col-md-2 offset-md-4">
+                                        <label class="form-label">Policy Number</label>
+                                        <input type="text" class="form-control" id="policy_number">
+                                </div>
+                                <div class="col-md-2">
+                                        <label class="form-lable">Policy date</label>
+                                        <input class="form-control" type="text" id="policy_date" data-mask="date"
+                                                name="date" placeholder="MM/DD/YYYY" />
+                                </div>
+                        </div>
+                </form>
+
+                <!-- inline radio buttons -->
+
+                <form class="mb-2">
+
+                        <div class="form-row ml-2">
+
+                                <div class="offset-3 col-md-3">
+                                        <div class="custom-control custom-radio">
+                                                <input type="radio" id="IPentry" name="customRadio"
+                                                        class="custom-control-input"
+                                                        onclick="javascript:Display_IPentry();">
+                                                <label class="custom-control-label font-weight-bolder" for="IPentry">Insurance Policy                                     Insert</label>
+                                        </div>
+
+                                </div>
+
+
+                                <div class="col-md-3">
+                                        <div class="custom-control custom-radio">
+                                                <input type="radio" id="IPsearch" name="customRadio"
+                                                        class="custom-control-input"
+                                                        onclick="javascript:Display_IPsearch();">
+                                                <label class="custom-control-label font-weight-bolder" for="IPsearch">Insurance Policy Search
+                                                        </label>
+                                        </div>
+                                </div>
+
+                        </div>
+                </form>
+
+
+                <!-- display  IP insert  -->
+
+                <div id="if_IPinsert" style="display:none">
+                        <div class="card">
+                                <div class="card-header text-white" style="background-color: #05668D ;">
+                                        <div class="row no-gutters">
+                                                <div class="col-md-4">INSURANCE POLICY DETAILS ENTRY</div>
+                                        </div>
+                                </div>
+
+                                <div class="card-body">
+                                        <form id="IPform">
+
+                                                <div class="form-row no-gutters">
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input type="text" class="border-bottom"
+                                                                                placeholder="Entry Serial No."
+                                                                                id="entry_srl">
+                                                                        <label for="entry_srl">Entry serial no.</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input type="text" class="border-bottom"
+                                                                                placeholder="Policy type"
+                                                                                list="AccCdList" id="policy_type">
+                                                                        <label for="policy_type">Policy type</label>
+                                                                        <datalist id="AccCdList">
+                                                                                <option value="Advance"></option>
+                                                                                <option value="Performance"></option>
+                                                                                <option value="V. Corporate BG">
+                                                                                </option>
+                                                                                <option value="Other"></option>
+                                                                        </datalist>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input type="text" class="border-bottom"
+                                                                                placeholder="Policy of company"
+                                                                                list="CompanyPolicyList"
+                                                                                id="policy_comp">
+                                                                        <label for="policy_comp">Policy of
+                                                                                company</label>
+                                                                        <datalist id="CompanyPolicyList">
+                                                                                <option value="SBI"></option>
+                                                                                <option value="UBI"></option>
+                                                                        </datalist>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                data-mask="date" id="policy_from"
+                                                                                name="date" placeholder="Policy from">
+                                                                        <label for="policy_from">Policy from</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                data-mask="date" id="policy_to"
+                                                                                name="date" placeholder="MM/DD/YYYY">
+                                                                        <label for="policy_to">Policy To</label>
+                                                                </div>
+                                                        </div>
+
+
+                                                </div>
+
+                                                <!-- end of first group -->
+
+                                                <div class="form-row no-gutters">
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input type="text" class="border-bottom"
+                                                                                placeholder="FD status"
+                                                                                list="PolicystatusList" id="policy_stat">
+                                                                        <label for="policy_stat">Policy status</label>
+                                                                        <datalist id="PolicystatusList">
+                                                                                <option value="In 
+                                                                                tenure"></option>
+                                                                                <option value="Encashed"></option>
+                                                                                <option value="Auto-renewed"></option>
+                                                                                <option value="Manually-renewed">
+                                                                                </option>
+                                                                                <option value="Encashed"></option>
+                                                                                <option value="Claimed"></option>
+                                                                        </datalist>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                data-mask="date" id="policy_cover"
+                                                                                 placeholder="Policy Coverage">
+                                                                        <label for="policy_cover">Policy Coverage</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                data-mask="currency"
+                                                                                placeholder="Policy Amount"
+                                                                                id="policy_amt">
+                                                                        <label for="policy_amt">Policy Amount</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                placeholder="Policy premium" id="policy_prem"
+                                                                                data-mask="currency">
+                                                                        <label for="policy_prem">Policy premium</label>
+                                                                </div>
+                                                        </div>
+
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                placeholder="File No."
+                                                                                id="policy_file">
+                                                                        <label for="policy_file">File No.</label>
+                                                                </div>
+                                                        </div>
+
+                                                </div>
+
+                                                <!-- end of second group -->
+
+
+                                                <div class="form-row no-gutters">
+                                                        <div class="col-md">
+                                                                <div class="form-label-group">
+                                                                        <input class="border-bottom" type="text"
+                                                                                placeholder="Remarks" id="remarks">
+                                                                        <label for="remarks">Remarks</label>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                                <!-- end of third group -->
+
+                                                <div class="form-row no-gutters">
+                                                        <div class="col-md-2 offset-10">
+                                                                <input type="button" value="Submit" id="FDinsertBtn"
+                                                                        class="btn btn-primary mt-1" />
+                                                        </div>
+                                                </div>
+                                                <!-- end of last group -->
+
+                                        </form>
+                                </div>
+                        </div>
+
+                </div>
+
+
+
+                <!-- display IP search -->
+
+                <div id="if_IPsearch" style="display:none;">
+                        <div class="card">
+                                <div class="card-header text-white" style="background-color: #05668D ;">
+                                        <div class="row no-gutters">
+                                                <!-- <div class="col-md-4">SRL No.<span id="Me_srl_no">1</span> &nbsp; -->
+                                                INSURANCE POLICY SEARCH</div>
+                                        <div class="offset-3 col-md-2">
+                                        </div>
+                                </div>
+                        </div>
+
+                        <div class="card-body">
+
+                                <form id="IPsearchForm">
+
+                                        <div class="form-row no-gutters">
+
+                                                <div class="col-md">
+                                                        <div class="form-label-group">
+                                                                <input type="text" class="border-bottom"
+                                                                        placeholder="Project Code" list="ProjectList"
+                                                                        id="proj_cd" onkeyup="myFunction()">
+                                                                <label for="proj_cd">Project Code</label>
+                                                                <datalist id="ProjectList">
+                                                                        <option value="84"></option>
+                                                                        <option value="11"></option>
+                                                                </datalist>
+                                                        </div>
+                                                </div>
+                                                <div class="col-md">
+                                                        <div class="form-label-group">
+                                                                <input type="text" class="border-bottom"
+                                                                        placeholder="Policy Number" id="pol_no"
+                                                                        onkeyup="myFunction()" />
+                                                                <label for="pol_no">Policy No.</label>
+                                                        </div>
+                                                </div>
+
+                                                <div class="col-md">
+                                                        <div class="form-label-group">
+                                                                <input type="text" class="border-bottom"
+                                                                        placeholder="Policy Type" list="policyList"
+                                                                        id="pol_typ" />
+                                                                <label for="pol_typ">Policy Type</label>
+                                                        </div>
+                                                </div>
+
+                                                <div class="col-md">
+                                                        <div class="form-label-group">
+                                                                <input class="border-bottom" type="text"
+                                                                        placeholder="Policy Status" id="pol_stat"
+                                                                        onkeyup="myFunction()">
+                                                                <label for="pol_stat">Policy Status</label>
+                                                        </div>
+                                                </div>
+
+                                                <div class="col-md">
+                                                        <div class="form-label-group">
+                                                                <input type="text" class="border-bottom"
+                                                                        placeholder="MM/DD/YYYY" name="date"
+                                                                        id="pol_to" onkeyup="myFunction()" />
+                                                                <label for="pol_to">Policy to</label>
+                                                        </div>
+                                                </div>
+
+                                                <div class="col-md">
+                                                        <div class="form-label-group">
+                                                                <input class="border-bottom" type="text"
+                                                                        data-mask="currency" id="pol_com"
+                                                                        placeholder=">Policy of company" />
+                                                                <label for="pol_com">Policy of company</label>
+                                                        </div>
+                                                </div>
+
+
+                                        </div>
+
+                                        <!-- end of first group -->
+
+                        </div>
+                        </form>
+
+                        <br>
+
+                        <!-- table that displays form elements -->
+                        <div class="card material-table">
+
+                                <br />
+                                <table class="table" id="ins_table">
+                                        <a href="#" onClick="window.print()"><i class="material-icons col-md offset-11">print</i></a>
+                                        <thead>
+                                                <tr>
+                                                        <th>#</th>
+                                                        <th>Project code</th>
+                                                        <th>Policy No.</th>
+                                                        <th>Policy type</th>
+                                                        <th>Policy status</th>
+                                                        <th>Policy to</th>
+                                                        <th>Company</th>
+                                                        <th>Policy premium</th>
+                                                        <th>Policy Coverage</th>
+                                                </tr>
+                                        </thead>
+                                </table>
+                        </div>
+
+
+                </div>
+        </div>
+
+
+        </div>
+        <!-- end of container -->
+
+
+        <script src="https://spark.bootlab.io/js/app.js"></script>
+
+        <!-- rule defined for input data mask -->
+        <script src="js/app.js"></script>
+        <script src="jquery.maskedinput.js"></script>
+        <script src="jquery.clearform.js"></script>
+
+        <script>
+                $(document).ready(function () {
+                        //-initialize the javascript
+                        App.init();
+                        App.masks();
+                });
+        </script>
+
+        <script>
+                $(function () {
+                        // Select2
+                        $(".select2").each(function () {
+                                $(this)
+                                        .wrap("<div class=\"position-relative\"></div>")
+                                        .select2({
+                                                dropdownParent: $(this).parent()
+                                        });
+                        })
+
+                        //calendar
+                        $("input[name=\"date\"]").daterangepicker({
+                                singleDatePicker: true,
+                                showDropdowns: true
+                        });
+                });
+        </script>
+
+
+
+        <script>
+                // for displaying IP insert
+                function Display_IPentry() {
+                        if (document.getElementById('IPentry').checked) {
+
+                           
+                                document.getElementById('if_IPsearch').style.display = 'none';
+
+
+                                document.getElementById('if_IPinsert').style.display = 'block';
+                        }
+                }
+
+
+                //for displaying IP grid
+
+
+                function Display_IPsearch() {
+                        if (document.getElementById('IPsearch').checked) {
+
+                                document.getElementById('if_IPinsert').style.display = 'none';
+
+                                document.getElementById('if_IPsearch').style.display = 'block';
+
+
+                        }
+                }
+        </script>
+
+
+        <script>
+                $(document).ready(function () {
+                        $.getJSON("/csvjson.json", function (data) {
+                                var ins_data = '';
+                                $.each(data, function (key, value) {
+                                        ins_data += '<tr>';
+                                        ins_data += '<td>' + key +
+                                                '</td>';
+                                        ins_data += '<td>' + value
+                                                .projcd + '</td>';
+                                        ins_data += '<td>' + value
+                                                .policy_number + '</td>';
+                                        ins_data += '<td>' + value
+                                                .policy_type +
+                                                '</td>';
+                                        ins_data += '<td>' + value
+                                                .policy_stat + '</td>';
+                                        ins_data += '<td>' + value
+                                                .policy_to + '</td>';
+                                        ins_data += '<td>' + value
+                                                .policy_comp +
+                                                '</td>';
+                                        ins_data += '<td>' + value
+                                                .policy_prem +
+                                                '</td>';
+                                        ins_data += '<td>' + value
+                                                .policy_cover + '</td>';
+                                        ins_data += '<tr>';
+                                });
+                                $('#ins_table').append(ins_data);
+                        });
+
+                });
+        </script>
+
+
+        <script>
+                function myFunction() {
+                        var input1, filter1, table, tr, td1, i, txtValue1;
+                        var input2, filter2, td2, txtValue2;
+                        var input3, filter3, td3, txtValue3;
+                        var input4, filter4, td4, txtValue4;
+                        var input5, filter5, td5, txtValue5;
+                        var input6, filter6, td6, txtValue6;
+
+                        input1 = document.getElementById("proj_cd");
+                        filter1 = input1.value.toUpperCase();
+
+                        input2 = document.getElementById("pol_no");
+                        filter2 = input2.value.toUpperCase();
+
+                        input3 = document.getElementById("pol_typ");
+                        filter3 = input3.value.toUpperCase();
+
+                        input4 = document.getElementById("pol_stat");
+                        filter4 = input4.value.toUpperCase();
+
+                        input5 = document.getElementById("pol_to");
+                        filter5 = input5.value.toUpperCase();
+
+                        input6 = document.getElementById("pol_com");
+                        filter6 = input6.value.toUpperCase();
+
+                        table = document.getElementById("ins_table");
+                        tr = table.getElementsByTagName("tr");
+                        for (i = 0; i < tr.length; i++) {
+
+                                td1 = tr[i].getElementsByTagName("td")[1];
+                                td2 = tr[i].getElementsByTagName("td")[2];
+                                td3 = tr[i].getElementsByTagName("td")[3];
+                                td4 = tr[i].getElementsByTagName("td")[4];
+                                td5 = tr[i].getElementsByTagName("td")[5];
+                                td6 = tr[i].getElementsByTagName("td")[6];
+
+                                if (td1 || td2 ) {
+                                        txtValue1 = td1.textContent || td1.innerText;
+                                        txtValue2 = td2.textContent || td2.innerText;
+                                        txtValue3 = td3.textContent || td3.innerText;
+                                        txtValue4 = td4.textContent || td4.innerText;
+                                        txtValue5 = td5.textContent || td5.innerText;
+                                        txtValue6 = td6.textContent || td6.innerText;
+
+                                        if ((txtValue1.toUpperCase().indexOf(filter1) > -1) &&
+                                                (txtValue2.toUpperCase().indexOf(filter2) > -1) &&
+                                                (txtValue3.toUpperCase().indexOf(filter3) > -1) &&
+                                                (txtValue4.toUpperCase().indexOf(filter4) > -1) &&
+                                                (txtValue6.toUpperCase().indexOf(filter6) > -1)) {
+
+                                                tr[i].style.display = "";
+                                        } else {
+                                                tr[i].style.display = "none";
+                                        }
+                                }
+                        }
+                }
+        </script>
+
+</body>
+
+</html>
