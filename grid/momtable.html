@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MOM grid</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+   
+  </head>
+
+  <body>
+    <div class="row">
+      <div id="admin" class="col s12">
+        <div class="card material-table">
+          <div class="table-header">
+            <span class="table-title">Material Datatable</span>
+            <div class="actions">
+              <a href="#add_users" class="modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">person_add</i></a>
+              <a href="#" class="search-toggle waves-effect btn-flat nopadding"><i class="material-icons">search</i></a>
+              <input type="text" id="sagdcd" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+              <input type="text" id="sagdno" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+              <input type="text" id="sagddesc" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+            </div>
+          </div>
+
+        <br/>
+        <table class="table" id="datatable">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>Project Code</th>
+            <th>MOM Date</th>
+            <th>Agenda Code</th>
+            <th>Agenda Slno</th>
+            <th>Agenda Description</th>
+          </tr>
+          </thead>
+        </table>
+        </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+
+
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script src="js/materialize.min.js"></script>
+    <script src="js/index.js"></script>
+    <!-- <script src="../jquery-ui-1.12.1/jquery-ui.js"></script> -->
+    <script src="js/jquery.min.js"></script>
+
+ 
+    <script>
+            $(document).ready(function(){
+              $.getJSON("/momdb.json", function(data){
+                var mom_data = '';  
+                $.each(data, function(key, value){
+                  mom_data += '<tr>';
+                      mom_data += '<td>'+key+'</td>';
+                      mom_data += '<td>'+value.PROJCD+'</td>';
+                      mom_data += '<td>'+value.MOM_DATE+'</td>';
+                      mom_data += '<td>'+value.MOM_AGNCD+'</td>';
+                      mom_data += '<td>'+value.MOM_AGNDASL+'</td>';
+                      mom_data += '<td>'+value.MOM_AGNDESC+'</td>';
+                    mom_data += '<tr>';
+                });
+                $('#datatable').append(mom_data);
+              });
+              
+            });
+            </script>
+
+
+<script>
+  function myFunction() {
+    var input1,input2, agdcd_filter,agdno_filter, table, tr, agdcd,agdno, i, txtValue1,txtValue2;
+
+    input1 = document.getElementById("sagdcd");
+    agdcd_filter = input1.value.toUpperCase();
+
+    input2 = document.getElementById("sagdno");
+    agdno_filter = input2.value.toUpperCase();
+
+    table = document.getElementById("datatable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+
+      agdcd = tr[i].getElementsByTagName("td")[3];
+      agdno = tr[i].getElementsByTagName("td")[4];
+
+      if (agdcd || agdno) {
+        txtValue1 = agdcd.textContent || agdcd.innerText ;
+        txtValue2 = agdno.textContent || agdno.innerText ;
+
+        if ((txtValue1.toUpperCase().indexOf(agdcd_filter) > -1) && (txtValue2.toUpperCase().indexOf(agdno_filter) > -1)) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
+  }
+  </script>
+               <!-- <script src="js/index.js"></script> -->
+
+  </body>
+  
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MOM grid</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+   
+  </head>
+
+  <body>
+    <div class="row">
+      <div id="admin" class="col s12">
+        <div class="card material-table">
+          <div class="table-header">
+            <span class="table-title">Material Datatable</span>
+            <div class="actions">
+              <a href="#add_users" class="modal-trigger waves-effect btn-flat nopadding"><i class="material-icons">person_add</i></a>
+              <a href="#" class="search-toggle waves-effect btn-flat nopadding"><i class="material-icons">search</i></a>
+              <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+            </div>
+          </div>
+
+        <br/>
+        <table class="table" id="datatable">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>Project Code</th>
+            <th>MOM Date</th>
+            <th>Agenda Code</th>
+            <th>Agenda Slno</th>
+            <th>Agenda Description</th>
+          </tr>
+          </thead>
+          <tfoot>
+                <th>#</th>
+                <th>Project Code</th>
+                <th>MOM Date</th>
+                <th>Agenda Code</th>
+                <th>Agenda Slno</th>
+                <th>Agenda Description</th>
+
+          </tfoot>
+        </table>
+        </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script src="js/materialize.min.js"></script>
+    <!-- <script src="js/index.js"></script> -->
+ 
+    <script>
+            $(document).ready(function(){
+              $.getJSON("/momdb.json", function(data){
+                var mom_data = '';  
+                $.each(data, function(key, value){
+                  mom_data += '<tr>';
+                      mom_data += '<td>'+key+'</td>';
+                      mom_data += '<td>'+value.PROJCD+'</td>';
+                      mom_data += '<td>'+value.MOM_DATE+'</td>';
+                      mom_data += '<td>'+value.MOM_AGNCD+'</td>';
+                      mom_data += '<td>'+value.MOM_AGNDASL+'</td>';
+                      mom_data += '<td>'+value.MOM_AGNDESC+'</td>';
+                    mom_data += '<tr>';
+                });
+                $('#datatable').append(mom_data);
+              });
+              
+            });
+            </script>
+
+
+<script>
+  function myFunction() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("datatable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }       
+    }
+  }
+  </script>
+               <!-- <script src="js/index.js"></script> -->
+
+  </body>
+  
+</html>
